@@ -133,7 +133,7 @@ tr:nth-child(even) {
         <h3>
 <a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Who borrow the most money?</h3>
 
-iv style="width: 800px";>
+<div style="width: 800px";>
 <h3>Introdcution</h3>
 <p> The Prosper Loan data set is used to build this visualization. This visualization aim to demonstrate different how different factor affect the loan amount. You can discover some trend in the visualization and get some insight about which factor affect the loan amount most.</p>
 </div>
@@ -153,7 +153,70 @@ https://docs.google.com/spreadsheets/d/1gDyi_L4UvIrLTEC6Wri5nbaMmkGmLQBk-Yx3z0XD
 <h3>
 <a id="hi" class="anchor" href="#hi" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>hi</h3>
 
-<p>hi</p>
+
+
+<div id="line_graph" class="chart"><p style="color: blue;">Move your mouse to the point and you can see the exact number!</p></div>
+<h4 style="width : 800px;">What do you notice in this line graph? Why did the loan amount are so low for the first year? Why there is a big drop in number of loan in 2014?</h4>
+<p style="width : 800px;">Please note that the data set contains data between December 2005 to March 2014, therefore there is significant less data in this two year as they do not have a complete record. However, the drop in 2009 is valid , can you think of a reason why there is such a big drop? Yes, it is the reccession happen in late 2008! Since the data is a yearly record, the effect of the reccession is shown in 2009, from 11052 in 2008 to 2047 in 2009. It is a significant shrink! The company spend almost 2 years to recover to the level of 2008. Since then the company have done a great job and the number of loan is increasing every year. </p>
+<p style="width : 800px;">With a uncomplete record of 2014, we can still expect a growth of loan. The numnber of loan in 2013 is 34535, while 2014 only have data for quarter of a year and it had 12172 loans already.</p>
+
+<table>
+<div style="width: 700px;"><h4> Number of data in each income range for home owner and non home owner</h4>
+  <tr>
+    <th>Income Range</th>
+    <th>Non Home Owner</th>
+    <th>Home Owner</th>
+  </tr>
+  <tr>
+    <td>$0</td>
+    <td>347</td>
+    <td>274</td>
+  </tr>
+  <tr>
+    <td>$1-24,999 </td>
+    <td>5751</td>
+    <td>1523</td>
+  </tr>
+  <tr>
+    <td>$25,000-49,999</td>
+    <td>19985</td>
+    <td>12207</td>
+  </tr>
+  <tr>
+    <td>$50,000-74,999</td>
+    <td>13929</td>
+    <td>17121</td>
+  </tr>
+  <tr>
+    <td>$75,000-99,999</td>
+    <td>6025</td>
+    <td>10891</td>
+  </tr>
+  <tr>
+    <td>$100,000+ </td>
+    <td>4700</td>
+    <td>12637</td>
+  </tr>
+</table>
+
+
+
+
+<div id="box_graph" class="chart">
+</div>
+<div>
+<button id="btn1">Non-Home Owner</button>
+<button id="btn2">Home Owner</button>
+<p style="width:800px;"> Try to focus on the median of the data, it is a good proxy to see the trend that loan amount is increasing with income range generally. Home Owner always have a larger median than Non- Home Owner. However, the $0 income range is a special case. It is interesting to note that people with no income even borrow more money than people have income in $1-24,999 group, that may be a dangerous loan!</p>
+
+<h4> Interested in the dataset? It is open source and have fun! </h4>
+<p>Metadate: https://docs.google.com/spreadsheets/d/1gDyi_L4UvIrLTEC6Wri5nbaMmkGmLQBk-Yx3z0XDEtI/edit?pref=2&pli=1#gid=0</p>
+<h4>You can download the dataset here, there are other open source dataset as well!</h4>
+<p>https://docs.google.com/document/d/1w7KhqotVi5eoKE3I_AZHbsxdr-NmcWsLTIiZrpxWx4w/pub?embedded=true<p>
+
+</body>
+
+</div>
       </section>
 
       <footer>
