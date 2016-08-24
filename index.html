@@ -557,8 +557,8 @@ d3.csv("number.csv", function(error, number) {
                 .duration(200)
                 .style("opacity", .9);
             div.html("Number of loans:" + (d.nonhome))
-                .style("left", (d3.event.pageX) + "px")
-                .style("top", (d3.event.pageY - 28) + "px");
+                .style("left", (d3.event.pageX) - 500 + "px")
+                .style("top", (d3.event.pageY) - 290 + "px");
         })
         .on("mouseout", function(d) {
             div.transition()
@@ -776,9 +776,9 @@ d3.csv("number.csv", function(error, number) {
             div.transition()
                 .duration(200)
                 .style("opacity", .9);
-            div.html("Number of loans:" + (d.home))
-                .style("left", (d3.event.pageX) + "px")
-                .style("top", (d3.event.pageY - 28) + "px");
+            div.html("Number of loans:" + (d.nonhome))
+                .style("left", (d3.event.pageX) - 500 + "px")
+                .style("top", (d3.event.pageY) - 290 + "px");
         })
         .on("mouseout", function(d) {
             div.transition()
