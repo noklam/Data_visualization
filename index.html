@@ -344,17 +344,13 @@ d3.select("#btn1")
             .selectAll("*")
             .remove(); // clean out the graph if button is click,
         draw_btn1(); //replot a new one.
-        draw_tooltip_nonhome();
-
-        // redraw tooltip;
-    });
+           });
 d3.select("#btn2")
     .on("click", function() { // same purpose
         d3.select("#box_graph")
             .selectAll("*")
             .remove();
         draw_btn2();
-        draw_tooltip_home();//redraw tooltip;
     });
 var labels = true; // show the text labels beside individual boxplots?
 var margin = {
