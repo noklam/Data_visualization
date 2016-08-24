@@ -1,4 +1,3 @@
-Summary:
 #Data Visualization with D3.js Final Project
 
 ### Author : Nok Chan
@@ -17,13 +16,13 @@ Used skills: d3.js , R ,HTML, CSS
 
 ##Summary
 
-This project used the d3.js library to build visualizations. The data is subseted using R to select the interest features and output the dataset file "loandata.csv". The data is read using script written in the index.html 
-The boxplot is aim to demonstrate the relation between different variable to answer the question that what factor affect the loan amount and who borrow the most.
+This project used the d3.js library to build visualizations. The data is a subset of Prosper Data Set using R to select the interested features and output the dataset file "loandata.csv". The data is read using script written in the index.html . A line graph is used to describe the dataset and give more information about the company growth and recession.
+The boxplot is aimed to demonstrate the relation between different variable to answer the question that what factor affect the loan amount and who borrow the most.
 
-The data is from Dec 2005-2014 March, therefore the number of count in the first and last year is siginficantly lower.  The original data set only have the variable for date, I use strptime()$year to extract the year and aggerate the data into year and make the line graph. It is interesting to note that the graph shows the big drop in 2008-2009, which reflected the law issue of Prosper Company. 
+The data is from Dec 2005-2014 March, therefore the number of the count in the first and last year is significantly lower.  The original data set only have the variable for date, I use strptime()$year to extract the year and aggerate the data into year and make the line graph. It is interesting to note that the graph shows the big drop in 2008-2009, which reflected the law issue of Prosper Company. 
 
-In general, the loan amount is increase with income range, though the $0 group is a special one, which has a larger median than $1-24,999 group. It is interesting as it shows that sometime not the richer one will borrow more.
-Home Owner is another variable that added into the visualization, in all income range group, home owner borrows more than non- home owner.
+In general, the loan amount increased with income range, though the $0 group is a special one, which has a larger median than $1-24,999 group. It is interesting as it shows that sometimes not the richer one will borrow more.
+Home Owner is another variable that added into the visualization, in all income range group, homeowner borrows more than non- homeowner.
 
 Variables in this visualization: LoanOriginalAmount, IncomeRange,IsBorrowerHomeOwner
 
