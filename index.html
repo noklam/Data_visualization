@@ -211,7 +211,7 @@ https://docs.google.com/spreadsheets/d/1gDyi_L4UvIrLTEC6Wri5nbaMmkGmLQBk-Yx3z0XD
 <script src="box.js"></script>
 <script>
 
-
+//Line graph
 // Get the data_year
 d3.csv("year.csv", function(error, data_year) {
     data_year.forEach(function(d) {
@@ -344,6 +344,9 @@ d3.select("#btn1")
             .selectAll("*")
             .remove(); // clean out the graph if button is click,
         draw_btn1(); //replot a new one.
+        draw_tooltip_nonhome();
+
+        // redraw tooltip;
     });
 d3.select("#btn2")
     .on("click", function() { // same purpose
@@ -351,6 +354,7 @@ d3.select("#btn2")
             .selectAll("*")
             .remove();
         draw_btn2();
+        draw_tooltip_home();//redraw tooltip;
     });
 var labels = true; // show the text labels beside individual boxplots?
 var margin = {
@@ -367,193 +371,186 @@ var count_home = [347, 5751, 19985, 13929, 6025, 4700];
 var count_nonhome = [274, 1523, 12207, 17121, 10891, 12637];
 draw_btn1(); /// draw this graph first
 function draw_btn1() {
-        d3.csv("loandata.csv", function(error, csv) {
-            // using an array of arrays with
-            // data[n][2]
-            // where n = number of columns in the csv file
-            // data[i][0] = name of the ith column
-            // data[i][1] = array of values of ith column
-            var data = [];
-            data[0] = [];
-            data[1] = [];
-            data[2] = [];
-            data[3] = [];
-            data[4] = [];
-            data[5] = [];
-            // add more rows if your csv file has more columns
-            // add here the header of the csv file
-            data[0][0] = "$0";
-            data[1][0] = "$1-24,999";
-            data[2][0] = "$25,000-49,999";
-            data[3][0] = "$50,000-74,999";
-            data[4][0] = "75,000-99,999";
-            data[5][0] = "100,000+";
-            // add more rows if your csv file has more columns
-            data[0][1] = [];
-            data[1][1] = [];
-            data[2][1] = [];
-            data[3][1] = [];
-            data[4][1] = [];
-            data[5][1] = [];
-            // add header
-            data[0][0] = "$0";
-            data[1][0] = "$1-24,999";
-            data[2][0] = "$25,000-49,999";
-            data[3][0] = "$50,000-74,999";
-            data[4][0] = "$75,000-99,999";
-            data[5][0] = "$100,000+";
-            // Read the csv data
-            csv.forEach(function(x) {
-                if (x.IsBorrowerHomeOwner == "FALSE") { //read data for non-home owner
-                    if (x.IncomeRange == "$0") { // nested if condition for each income range group
-                        var v1 = Math.floor(x.LoanOriginalAmount);
+        {
+            d3.csv("loandata.csv", function(error, csv) {
+                // using an array of arrays with
+                // data[n][2]
+                // where n = number of columns in the csv file
+                // data[i][0] = name of the ith column
+                // data[i][1] = array of values of ith column
+                var data = [];
+                data[0] = [];
+                data[1] = [];
+                data[2] = [];
+                data[3] = [];
+                data[4] = [];
+                data[5] = [];
+                // add more rows if your csv file has more columns
+                // add here the header of the csv file
+                data[0][0] = "$0";
+                data[1][0] = "$1-24,999";
+                data[2][0] = "$25,000-49,999";
+                data[3][0] = "$50,000-74,999";
+                data[4][0] = "75,000-99,999";
+                data[5][0] = "100,000+";
+                // add more rows if your csv file has more columns
+                data[0][1] = [];
+                data[1][1] = [];
+                data[2][1] = [];
+                data[3][1] = [];
+                data[4][1] = [];
+                data[5][1] = [];
+                // add header
+                data[0][0] = "$0";
+                data[1][0] = "$1-24,999";
+                data[2][0] = "$25,000-49,999";
+                data[3][0] = "$50,000-74,999";
+                data[4][0] = "$75,000-99,999";
+                data[5][0] = "$100,000+";
+                // Read the csv data
+                csv.forEach(function(x) {
+                    if (x.IsBorrowerHomeOwner == "FALSE") { //read data for non-home owner
+                        if (x.IncomeRange == "$0") { // nested if condition for each income range group
+                            var v1 = Math.floor(x.LoanOriginalAmount);
+                        }
+                        if (x.IncomeRange == "$1-24,999") {
+                            var v2 = Math.floor(x.LoanOriginalAmount);
+                        } else if (x.IncomeRange ==
+                            "$25,000-49,999") {
+                            var v3 = Math.floor(x.LoanOriginalAmount);
+                        } else if (x.IncomeRange ==
+                            "$50,000-74,999") {
+                            var v4 = Math.floor(x.LoanOriginalAmount);
+                        } else if (x.IncomeRange ==
+                            "$75,000-99,999") {
+                            var v5 = Math.floor(x.LoanOriginalAmount);
+                        } else if (x.IncomeRange == "$100,000+") {
+                            var v6 = Math.floor(x.LoanOriginalAmount);
+                        }
                     }
-                    if (x.IncomeRange == "$1-24,999") {
-                        var v2 = Math.floor(x.LoanOriginalAmount);
-                    } else if (x.IncomeRange ==
-                        "$25,000-49,999") {
-                        var v3 = Math.floor(x.LoanOriginalAmount);
-                    } else if (x.IncomeRange ==
-                        "$50,000-74,999") {
-                        var v4 = Math.floor(x.LoanOriginalAmount);
-                    } else if (x.IncomeRange ==
-                        "$75,000-99,999") {
-                        var v5 = Math.floor(x.LoanOriginalAmount);
-                    } else if (x.IncomeRange == "$100,000+") {
-                        var v6 = Math.floor(x.LoanOriginalAmount);
+                    // In the above loop, each time only one variable will satisfy the condition
+                    if (v1) { // only if the variable exist the code will be run.
+                        data[0][1].push(v1);
+                        if (v1 > max) max = v1; // get the maximum
+                        if (v1 < min) min = v1; // get the minimum , the maximum and minimum are used for
+                        // calculating the range.
                     }
-                }
-                // In the above loop, each time only one variable will satisfy the condition
-                if (v1) { // only if the variable exist the code will be run.
-                    data[0][1].push(v1);
-                    if (v1 > max) max = v1; // get the maximum
-                    if (v1 < min) min = v1; // get the minimum , the maximum and minimum are used for
-                    // calculating the range.
-                }
-                if (v2) { // repeat step for each variable.
-                    data[1][1].push(v2);
-                    if (v2 > max) max = v2;
-                    if (v2 < min) min = v2;
-                }
-                if (v3) {
-                    data[2][1].push(v3);
-                    if (v3 > max) max = v3;
-                    if (v3 < min) min = v3;
-                }
-                if (v4) {
-                    data[3][1].push(v4);
-                    if (v4 > max) max = v4;
-                    if (v4 < min) min = v4;
-                }
-                if (v5) {
-                    data[4][1].push(v5);
-                    if (v5 > max) max = v5;
-                    if (v5 < min) min = v5;
-                };
-                if (v6) {
-                    data[5][1].push(v6);
-                    if (v6 > max) max = v6;
-                    if (v6 < min) min = v6;
-                }
+                    if (v2) { // repeat step for each variable.
+                        data[1][1].push(v2);
+                        if (v2 > max) max = v2;
+                        if (v2 < min) min = v2;
+                    }
+                    if (v3) {
+                        data[2][1].push(v3);
+                        if (v3 > max) max = v3;
+                        if (v3 < min) min = v3;
+                    }
+                    if (v4) {
+                        data[3][1].push(v4);
+                        if (v4 > max) max = v4;
+                        if (v4 < min) min = v4;
+                    }
+                    if (v5) {
+                        data[4][1].push(v5);
+                        if (v5 > max) max = v5;
+                        if (v5 < min) min = v5;
+                    }
+                    if (v6) {
+                        data[5][1].push(v6);
+                        if (v6 > max) max = v6;
+                        if (v6 < min) min = v6;
+                    }
+                });
+                // build up the variable with d3.box()function
+                var chart = d3.box()
+                    .whiskers(iqr(1.5)) // define the range of the whisker, 1.5 interquartile range
+                    .height(height)
+                    .domain([min, max])
+                    .showLabels(labels);
+                //set up the svg element
+                var svg = d3.select("#box_graph")
+                    .append("svg")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                    .attr("class", "box")
+                    .append("g")
+                    .attr("transform", "translate(" + margin.left + "," +
+                        margin.top + ")");
+                // the x-axis
+                var x = d3.scale.ordinal()
+                    .domain(data.map(function(d) {
+                        console.log(d);
+                        return d[0]
+                    }))
+                    .rangeRoundBands([0, width], 0.7, 0.3);
+                var xAxis = d3.svg.axis()
+                    .scale(x)
+                    .orient("bottom");
+                // the y-axis
+                var y = d3.scale.linear()
+                    .domain([min, max])
+                    .range([height + margin.top, 0 + margin.top]);
+                var yAxis = d3.svg.axis()
+                    .scale(y)
+                    .orient("left");
+
+                // draw the boxplots
+                svg.selectAll(".box")
+                    .data(data)
+                    .enter()
+                    .append("g")
+                    .attr("transform", function(d) {
+                        return "translate(" + x(d[0]) + "," +
+                            margin.top + ")";
+                    })
+                    .call(chart.width(x.rangeBand()))
+
+                // add a title
+                svg.append("text")
+                    .attr("x", (width / 2))
+                    .attr("y", 0)
+                    .attr("text-anchor", "middle")
+                    .style("font-size", "18px")
+                    //.style("text-decoration", "underline")
+                    .text(
+                        "Loan Original Amount in different Income Range (Non-Home Owner)"
+                    );
+                // draw y axis
+                svg.append("g")
+                    .attr("class", "y axis")
+                    .call(yAxis)
+                    .append("text") // and text1
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 6)
+                    .attr("dy", ".71em")
+                    .style("text-anchor", "end")
+                    .style("font-size", "16px")
+                    .text("Loan Original Amount ($)");
+                // draw x axis
+                svg.append("g")
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(0," + (height +
+                        margin.top) + ")")
+                    .call(xAxis)
+                    .append("text") // text label for the x axis
+                    .attr("x", (width / 2))
+                    .attr("y", 25)
+                    .attr("dy", ".71em")
+                    .style("text-anchor", "middle")
+                    .style("font-size", "16px")
+                    .text("Income Range");
+                    draw_tooltip_nonhome();
             });
-            // build up the variable with d3.box()function
-            var chart = d3.box()
-                .whiskers(iqr(1.5)) // define the range of the whisker, 1.5 interquartile range
-                .height(height)
-                .domain([min, max])
-                .showLabels(labels);
-            //set up the svg element
-            var svg = d3.select("#box_graph")
-                .append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
-                .attr("class", "box")
-                .append("g")
-                .attr("transform", "translate(" + margin.left + "," +
-                    margin.top + ")");
-            // the x-axis
-            var x = d3.scale.ordinal()
-                .domain(data.map(function(d) {
-                    console.log(d);
-                    return d[0]
-                }))
-                .rangeRoundBands([0, width], 0.7, 0.3);
-            var xAxis = d3.svg.axis()
-                .scale(x)
-                .orient("bottom");
-            // the y-axis
-            var y = d3.scale.linear()
-                .domain([min, max])
-                .range([height + margin.top, 0 + margin.top]);
-            var yAxis = d3.svg.axis()
-                .scale(y)
-                .orient("left");
-            // add tooltip variable
-            var div = d3.select("body")
-                .append("div")
-                .attr("class", "tooltip")
-                .style("opacity", 0);
-            // draw the boxplots
-            svg.selectAll(".box")
-                .data(data)
-                .enter()
-                .append("g")
-                .attr("transform", function(d) {
-                    return "translate(" + x(d[0]) + "," + margin.top +
-                        ")";
-                })
-                .call(chart.width(x.rangeBand()))
-                .on("mouseover", function(d) {
-                    div.transition()
-                        .duration(200)
-                        .style("opacity", .9);
-                })
-                .on("mouseout", function(d) {
-                    div.transition()
-                        .duration(500)
-                        .style("opacity", 0);
-                });;
-            // add a title
-            svg.append("text")
-                .attr("x", (width / 2))
-                .attr("y", 0)
-                .attr("text-anchor", "middle")
-                .style("font-size", "18px")
-                //.style("text-decoration", "underline")
-                .text(
-                    "Loan Original Amount in different Income Range (Non-Home Owner)"
-                );
-            // draw y axis
-            svg.append("g")
-                .attr("class", "y axis")
-                .call(yAxis)
-                .append("text") // and text1
-                .attr("transform", "rotate(-90)")
-                .attr("y", 6)
-                .attr("dy", ".71em")
-                .style("text-anchor", "end")
-                .style("font-size", "16px")
-                .text("Loan Original Amount ($)");
-            // draw x axis
-            svg.append("g")
-                .attr("class", "x axis")
-                .attr("transform", "translate(0," + (height + margin.top) +
-                    ")")
-                .call(xAxis)
-                .append("text") // text label for the x axis
-                .attr("x", (width / 2))
-                .attr("y", 25)
-                .attr("dy", ".71em")
-                .style("text-anchor", "middle")
-                .style("font-size", "16px")
-                .text("Income Range");
-        });
+        }
+        draw_tooltip_nonhome(); //draw tooltip
+}
 //
+function draw_tooltip_nonhome(){
 d3.csv("number.csv", function(error, number) {
     number.forEach(function(d) {
         d.nonhome = d.nonhome;
     });
-    var div = d3.select("body")
+    var div = d3.select("#box_graph")
         .append("div")
         .attr("class", "tooltip")
         .style("opacity", 0);
@@ -592,166 +589,188 @@ function iqr(k) {
         };
     }
     //Similar draw function, different data
-
 function draw_btn2() {
-    d3.csv("loandata.csv", function(error, csv) {
-        // using an array of arrays with
-        // data[n][2]
-        // where n = number of columns in the csv file
-        // data[i][0] = name of the ith column
-        // data[i][1] = array of values of ith column
-        var data = [];
-        data[0] = [];
-        data[1] = [];
-        data[2] = [];
-        data[3] = [];
-        data[4] = [];
-        data[5] = [];
-        data[0][1] = [];
-        data[1][1] = [];
-        data[2][1] = [];
-        data[3][1] = [];
-        data[4][1] = [];
-        data[5][1] = [];
-        // add header
-        data[0][0] = "$0";
-        data[1][0] = "$1-24,999";
-        data[2][0] = "$25,000-49,999";
-        data[3][0] = "$50,000-74,999";
-        data[4][0] = "$75,000-99,999";
-        data[5][0] = "$100,000+";
-        csv.forEach(function(x) {
-            if (x.IsBorrowerHomeOwner == "TRUE") {
-                if (x.IncomeRange == "$0") {
-                    var v1 = Math.floor(x.LoanOriginalAmount);
-                } else if (x.IncomeRange == "$1-24,999") {
-                    var v2 = Math.floor(x.LoanOriginalAmount);
-                } else if (x.IncomeRange ==
-                    "$25,000-49,999") {
-                    var v3 = Math.floor(x.LoanOriginalAmount);
-                } else if (x.IncomeRange ==
-                    "$50,000-74,999") {
-                    var v4 = Math.floor(x.LoanOriginalAmount);
-                } else if (x.IncomeRange ==
-                    "$75,000-99,999") {
-                    var v5 = Math.floor(x.LoanOriginalAmount);
-                } else if (x.IncomeRange == "$100,000+") {
-                    var v6 = Math.floor(x.LoanOriginalAmount);
-                }
-            }
-            // add more variables if your csv file has more columns
-            if (v1) {
-                data[0][1].push(v1);
-                if (v1 > max) max = v1;
-                if (v1 < min) min = v1;
-            }
-            if (v2) {
-                data[1][1].push(v2);
-                if (v2 > max) max = v2;
-                if (v2 < min) min = v2;
-            }
-            if (v3) {
-                data[2][1].push(v3);
-                if (v3 > max) max = v3;
-                if (v3 < min) min = v3;
-            }
-            if (v4) {
-                data[3][1].push(v4);
-                if (v4 > max) max = v4;
-                if (v4 < min) min = v4;
-            }
-            if (v5) {
-                data[4][1].push(v5);
-                if (v5 > max) max = v5;
-                if (v5 < min) min = v5;
-            };
-            if (v6) {
-                data[5][1].push(v6);
-                if (v6 > max) max = v6;
-                if (v6 < min) min = v6;
-            }
-        });
-        var chart = d3.box()
-            .whiskers(iqr(1.5))
-            .height(height)
-            .domain([min, max])
-            .showLabels(labels);
-        var svg = d3.select("#box_graph")
-            .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .attr("class", "box")
-            .attr("id", "boxgraph")
-            .append("g")
-            .attr("transform", "translate(" + margin.left + "," +
-                margin.top + ")");
-        // the x-axis
-        var x = d3.scale.ordinal()
-            .domain(data.map(function(d) {
-                console.log(d);
-                return d[0]
-            }))
-            .rangeRoundBands([0, width], 0.7, 0.3);
-        var xAxis = d3.svg.axis()
-            .scale(x)
-            .orient("bottom");
-        // the y-axis
-        var y = d3.scale.linear()
-            .domain([min, max])
-            .range([height + margin.top, 0 + margin.top]);
-        var yAxis = d3.svg.axis()
-            .scale(y)
-            .orient("left");
-        // draw the boxplots
-        svg.selectAll(".box")
-            .data(data)
-            .enter()
-            .append("g")
-            .attr("transform", function(d) {
-                return "translate(" + x(d[0]) + "," + margin.top +
-                    ")";
-            })
-            .call(chart.width(x.rangeBand()));
-        // add a title
-        svg.append("text")
-            .attr("x", (width / 2))
-            .attr("y", 0)
-            .attr("text-anchor", "middle")
-            .style("font-size", "18px")
-            //.style("text-decoration", "underline")
-            .text(
-                "Loan Original Amount in different Income Range (Home Owner)"
-            );
-        // draw y axis
-        svg.append("g")
-            .attr("class", "y axis")
-            .call(yAxis)
-            .append("text") // and text1
-            .attr("transform", "rotate(-90)")
-            .attr("y", 6)
-            .attr("dy", ".71em")
-            .style("text-anchor", "end")
-            .style("font-size", "16px")
-            .text("Loan Original Amount ($)");
-        // draw x axis
-        svg.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + (height + margin.top) +
-                ")")
-            .call(xAxis)
-            .append("text") // text label for the x axis
-            .attr("x", (width / 2))
-            .attr("y", 25)
-            .attr("dy", ".71em")
-            .style("text-anchor", "middle")
-            .style("font-size", "16px")
-            .text("Income Range");
-    });
+        {
+            d3.csv("loandata.csv", function(error, csv) {
+                // using an array of arrays with
+                // data[n][2]
+                // where n = number of columns in the csv file
+                // data[i][0] = name of the ith column
+                // data[i][1] = array of values of ith column
+                var data = [];
+                data[0] = [];
+                data[1] = [];
+                data[2] = [];
+                data[3] = [];
+                data[4] = [];
+                data[5] = [];
+                // add more rows if your csv file has more columns
+                // add here the header of the csv file
+                data[0][0] = "$0";
+                data[1][0] = "$1-24,999";
+                data[2][0] = "$25,000-49,999";
+                data[3][0] = "$50,000-74,999";
+                data[4][0] = "75,000-99,999";
+                data[5][0] = "100,000+";
+                // add more rows if your csv file has more columns
+                data[0][1] = [];
+                data[1][1] = [];
+                data[2][1] = [];
+                data[3][1] = [];
+                data[4][1] = [];
+                data[5][1] = [];
+                // add header
+                data[0][0] = "$0";
+                data[1][0] = "$1-24,999";
+                data[2][0] = "$25,000-49,999";
+                data[3][0] = "$50,000-74,999";
+                data[4][0] = "$75,000-99,999";
+                data[5][0] = "$100,000+";
+                // Read the csv data
+                csv.forEach(function(x) {
+                    if (x.IsBorrowerHomeOwner == "TRUE") { //read data for non-home owner
+                        if (x.IncomeRange == "$0") { // nested if condition for each income range group
+                            var v1 = Math.floor(x.LoanOriginalAmount);
+                        }
+                        if (x.IncomeRange == "$1-24,999") {
+                            var v2 = Math.floor(x.LoanOriginalAmount);
+                        } else if (x.IncomeRange ==
+                            "$25,000-49,999") {
+                            var v3 = Math.floor(x.LoanOriginalAmount);
+                        } else if (x.IncomeRange ==
+                            "$50,000-74,999") {
+                            var v4 = Math.floor(x.LoanOriginalAmount);
+                        } else if (x.IncomeRange ==
+                            "$75,000-99,999") {
+                            var v5 = Math.floor(x.LoanOriginalAmount);
+                        } else if (x.IncomeRange == "$100,000+") {
+                            var v6 = Math.floor(x.LoanOriginalAmount);
+                        }
+                    }
+                    // In the above loop, each time only one variable will satisfy the condition
+                    if (v1) { // only if the variable exist the code will be run.
+                        data[0][1].push(v1);
+                        if (v1 > max) max = v1; // get the maximum
+                        if (v1 < min) min = v1; // get the minimum , the maximum and minimum are used for
+                        // calculating the range.
+                    }
+                    if (v2) { // repeat step for each variable.
+                        data[1][1].push(v2);
+                        if (v2 > max) max = v2;
+                        if (v2 < min) min = v2;
+                    }
+                    if (v3) {
+                        data[2][1].push(v3);
+                        if (v3 > max) max = v3;
+                        if (v3 < min) min = v3;
+                    }
+                    if (v4) {
+                        data[3][1].push(v4);
+                        if (v4 > max) max = v4;
+                        if (v4 < min) min = v4;
+                    }
+                    if (v5) {
+                        data[4][1].push(v5);
+                        if (v5 > max) max = v5;
+                        if (v5 < min) min = v5;
+                    }
+                    if (v6) {
+                        data[5][1].push(v6);
+                        if (v6 > max) max = v6;
+                        if (v6 < min) min = v6;
+                    }
+                });
+                // build up the variable with d3.box()function
+                var chart = d3.box()
+                    .whiskers(iqr(1.5)) // define the range of the whisker, 1.5 interquartile range
+                    .height(height)
+                    .domain([min, max])
+                    .showLabels(labels);
+                //set up the svg element
+                var svg = d3.select("#box_graph")
+                    .append("svg")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                    .attr("class", "box")
+                    .append("g")
+                    .attr("transform", "translate(" + margin.left + "," +
+                        margin.top + ")");
+                // the x-axis
+                var x = d3.scale.ordinal()
+                    .domain(data.map(function(d) {
+                        console.log(d);
+                        return d[0]
+                    }))
+                    .rangeRoundBands([0, width], 0.7, 0.3);
+                var xAxis = d3.svg.axis()
+                    .scale(x)
+                    .orient("bottom");
+                // the y-axis
+                var y = d3.scale.linear()
+                    .domain([min, max])
+                    .range([height + margin.top, 0 + margin.top]);
+                var yAxis = d3.svg.axis()
+                    .scale(y)
+                    .orient("left");
+
+                // draw the boxplots
+                svg.selectAll(".box")
+                    .data(data)
+                    .enter()
+                    .append("g")
+                    .attr("transform", function(d) {
+                        return "translate(" + x(d[0]) + "," +
+                            margin.top + ")";
+                    })
+                    .call(chart.width(x.rangeBand()))
+
+                // add a title
+                svg.append("text")
+                    .attr("x", (width / 2))
+                    .attr("y", 0)
+                    .attr("text-anchor", "middle")
+                    .style("font-size", "18px")
+                    //.style("text-decoration", "underline")
+                    .text(
+                        "Loan Original Amount in different Income Range (Non-Home Owner)"
+                    );
+                // draw y axis
+                svg.append("g")
+                    .attr("class", "y axis")
+                    .call(yAxis)
+                    .append("text") // and text1
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 6)
+                    .attr("dy", ".71em")
+                    .style("text-anchor", "end")
+                    .style("font-size", "16px")
+                    .text("Loan Original Amount ($)");
+                // draw x axis
+                svg.append("g")
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(0," + (height +
+                        margin.top) + ")")
+                    .call(xAxis)
+                    .append("text") // text label for the x axis
+                    .attr("x", (width / 2))
+                    .attr("y", 25)
+                    .attr("dy", ".71em")
+                    .style("text-anchor", "middle")
+                    .style("font-size", "16px")
+                    .text("Income Range");
+                    draw_tooltip_home(); //draw tooltip
+            });
+        }
+
+}
+
+
+function draw_tooltip_home(){
 d3.csv("number.csv", function(error, number) {
     number.forEach(function(d) {
         d.home = d.home;
     });
-    var div = d3.select("body")
+    var div = d3.select("#box_graph")
         .append("div")
         .attr("class", "tooltip")
         .style("opacity", 0);
@@ -770,8 +789,7 @@ d3.csv("number.csv", function(error, number) {
                 .duration(500)
                 .style("opacity", 0);
         });
-})
-}
+      })}
 
 
 </script>
