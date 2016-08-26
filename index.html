@@ -363,6 +363,11 @@ var width = 800 - margin.left - margin.right;
 var height = 500 - margin.top - margin.bottom;
 var min = Infinity,
     max = -Infinity;
+ var size = {
+            width : window.innerWidth || document.body.clientWidth,
+            height : window.innerHeight || document.body.clientHeight
+        };    
+    
 var count_home = [347, 5751, 19985, 13929, 6025, 4700];
 var count_nonhome = [274, 1523, 12207, 17121, 10891, 12637];
 draw_btn1(); /// draw this graph first
@@ -557,7 +562,7 @@ d3.csv("number.csv", function(error, number) {
                 .duration(200)
                 .style("opacity", .9);
             div.html("Number of loans:" + (d.nonhome))
-                .style("left", (d3.event.pageX) - 300 + "px")
+                .style("left", (d3.event.pageX) - size.width / 4 + "px")
                 .style("top", (d3.event.pageY) - 290 + "px");
         })
         .on("mouseout", function(d) {
@@ -777,8 +782,9 @@ d3.csv("number.csv", function(error, number) {
                 .duration(200)
                 .style("opacity", .9);
             div.html("Number of loans:" + (d.nonhome))
-                .style("left", (d3.event.pageX) - 300 + "px")
+                .style("left", (d3.event.pageX) - size.width / 4 + "px")
                 .style("top", (d3.event.pageY) - 290 + "px");
+
         })
         .on("mouseout", function(d) {
             div.transition()
